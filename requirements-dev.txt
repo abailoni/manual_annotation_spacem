@@ -1,3 +1,0 @@
-napari[dev]
-pytest
-pytest-qt

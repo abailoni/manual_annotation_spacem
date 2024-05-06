@@ -37,6 +37,7 @@ def add_image_to_project(qupath_proj_dir, image_path=None):
             # Now add it to the project:
             if add_new_image:
                 qp.add_image(image_path, image_type=QuPathImageType.OTHER, allow_duplicates=False)
+                print("added")
                 # new_entry.metadata = {
                 #         "annotator": "Alice",
                 #         "status": "finished",
@@ -70,16 +71,17 @@ def update_paths_images_in_project(qupath_proj_dir,
                 qp.update_image_paths(uri2uri={uri: qp._image_provider.uri(new_path)})
 
 
-def delete_image_from_project(qupath_proj_dir, image_id):
+def delete_image_from_project(qupath_proj_dir, image_path):
     assert paquo is not None, "Paquo library is required to interact with QuPath project"
 
-    print("Deleting ROI {} from QuPath project".format(image_id))
-    if not isinstance(image_id, (int, slice)):
-        assert isinstance(image_id, np.ndarray)
-        image_id = image_id.item()
+    print("Deleting ROI {} from QuPath project".format(image_path))
+    # if not isinstance(image_id, (int, slice)):
+    #     assert isinstance(image_id, np.ndarray)
+    #     image_id = image_id.item()
 
     with QuPathProject(qupath_proj_dir, mode="r+") as qp:
-        image_entry_id = '{}'.format(image_id + 1)
-        qp.remove_image(image_entry_id)
+        # image_entry_id = '{}'.format(image_id + 1)
+        qp.remove_image(image_path, ensure_exists=True)
+        print("removed")
 
 
